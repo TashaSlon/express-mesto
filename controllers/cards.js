@@ -35,8 +35,8 @@ module.exports.likeCard = (req, res) => {
     { new: true }
   ).then(card => res.send(card))
   .catch(err => {
-    res.status(404).send({ message: `Карточка с указанным _id не найдена` });
     res.status(400).send({ message: `Переданы некорректные данные для постановки лайка` });
+    res.status(404).send({ message: `Карточка с указанным _id не найдена` });
     res.status(500).send({ message: `Произошла ошибка  ${err}` });
    });
 };
@@ -49,8 +49,8 @@ module.exports.dislikeCard = (req, res) => {
     { new: true }
   ).then(card => res.send(card))
   .catch(err => {
-    res.status(404).send({ message: `Карточка с указанным _id не найдена` });
     res.status(400).send({ message: `Переданы некорректные данные для снятия лайка` });
+    res.status(404).send({ message: `Карточка с указанным _id не найдена` });
     res.status(500).send({ message: `Произошла ошибка  ${err}` });
    });
 };

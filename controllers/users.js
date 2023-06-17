@@ -5,7 +5,10 @@ module.exports.createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then(user => res.status(201).send(user))
-    .catch(err => res.status(500).send({ message: `Произошла ошибка  ${err}` }));
+    .catch(err => {
+      res.status(400).send({ message: `Переданы некорректные данные при создании пользователя` });
+      res.status(500).send({ message: `Произошла ошибка  ${err}` });
+     });
 };
 
 module.exports.getUsers = (req, res) => {
