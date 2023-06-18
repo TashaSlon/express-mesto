@@ -64,6 +64,7 @@ module.exports.updateAvatar = (req, res) => {
     req.body,
     { new: true,
     runValidators: true})
+    .orFail(() => new Error('Not found'))
     .then(user => res.send(user))
     .catch(err => {
       if (err.message === 'Not found') {

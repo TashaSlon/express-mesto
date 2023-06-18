@@ -1,15 +1,5 @@
 const Card = require('../models/card');
 
-const getCard = (cardId) => {
-  Card.findById(cardId)
-  .then(card => res.status(201).send(card))
-  .catch(err => {
-    res.status(400).send({ message: `Переданы некорректные данные для постановки лайка` });
-    res.status(404).send({ message: `Карточка с указанным _id не найдена` });
-    res.status(500).send({ message: `Произошла ошибка  ${err}` });
-   });
-};
-
 module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
 
@@ -43,7 +33,9 @@ module.exports.likeCard = (req, res) => {
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true }
-  ).then(card => {
+  )
+  .orFail(() => new Error('Not found'))
+  .then(card => {
     res.send(card);
   })
   .catch(err => {
@@ -65,7 +57,9 @@ module.exports.dislikeCard = (req, res) => {
     req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true }
-  ).then(card => res.send(card))
+  )
+  .orFail(() => new Error('Not found'))
+  .then(card => res.send(card))
   .catch(err => {
     if (err.message === 'Not found') {
       res
