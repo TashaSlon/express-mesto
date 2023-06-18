@@ -21,10 +21,19 @@ module.exports.getCards = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
+    .orFail(() => new Error('Not found'))
     .then(card => res.send(card))
     .catch(err => {
-      res.status(404).send({ message: `Карточка с указанным _id не найдена` });
+      if (err.message === 'Not found') {
+        res
+          .status(404)
+          .send({
+            message: 'Карточка с указанным _id не найдена',
+          });
+      } else {
+      res.status(400).send({ message: `Переданы некорректные данные` });
       res.status(500).send({ message: `Произошла ошибка  ${err}` });
+      };
      });
 };
 
