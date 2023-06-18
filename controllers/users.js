@@ -18,7 +18,7 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getUser = (req, res) => {
-  User.findById(req.user._id)
+  User.findById(req.params.userId)
     .then(user => res.status(200).send(user))
     .catch(err => {
       res.status(404).send({ message: `Такого пользователя не существует` });
@@ -28,7 +28,11 @@ module.exports.getUser = (req, res) => {
 
 module.exports.updateProfile = (req, res) => {
   console.log(req.body);
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true })
+  User.findByIdAndUpdate(
+    req.user._id,
+    req.body,
+    { new: true,
+    runValidators: true})
     .then(user => res.send(user))
     .catch(err => {
       res.status(400).send({ message: `Переданы некорректные данные при обновлении профиля` });
@@ -38,7 +42,11 @@ module.exports.updateProfile = (req, res) => {
 };
 
 module.exports.updateAvatar = (req, res) => {
-  User.findByIdAndUpdate(req.user._id, req.body, { new: true })
+  User.findByIdAndUpdate(
+    req.user._id,
+    req.body,
+    { new: true,
+    runValidators: true})
     .then(user => res.send(user))
     .catch(err => {
       res.status(400).send({ message: `Переданы некорректные данные при обновлении аватара` });
