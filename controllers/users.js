@@ -19,10 +19,19 @@ module.exports.getUsers = (req, res) => {
 
 module.exports.getUser = (req, res) => {
   User.findById(req.params.userId)
+    .orFail(() => new Error('Not found'))
     .then(user => res.status(200).send(user))
     .catch(err => {
-      res.status(404).send({ message: `Такого пользователя не существует` });
+      if (err.message === 'Not found') {
+        res
+          .status(404)
+          .send({
+            message: 'Такого пользователя не существует',
+          });
+      } else {
+      res.status(400).send({ message: `Переданы некорректные данные` });
       res.status(500).send({ message: `Произошла ошибка  ${err}` });
+      };
     });
 };
 
@@ -33,11 +42,19 @@ module.exports.updateProfile = (req, res) => {
     req.body,
     { new: true,
     runValidators: true})
+    .orFail(() => new Error('Not found'))
     .then(user => res.send(user))
     .catch(err => {
+      if (err.message === 'Not found') {
+        res
+          .status(404)
+          .send({
+            message: 'Такого пользователя не существует',
+          });
+      } else {
       res.status(400).send({ message: `Переданы некорректные данные при обновлении профиля` });
-      res.status(404).send({ message: `Такого пользователя не существует` });
       res.status(500).send({ message: `Произошла ошибка  ${err}` });
+      };
      });
 };
 
@@ -49,8 +66,15 @@ module.exports.updateAvatar = (req, res) => {
     runValidators: true})
     .then(user => res.send(user))
     .catch(err => {
+      if (err.message === 'Not found') {
+        res
+          .status(404)
+          .send({
+            message: 'Такого пользователя не существует',
+          });
+      } else {
       res.status(400).send({ message: `Переданы некорректные данные при обновлении аватара` });
-      res.status(404).send({ message: `Такого пользователя не существует` });
       res.status(500).send({ message: `Произошла ошибка  ${err}` });
+      };
      });
 };
