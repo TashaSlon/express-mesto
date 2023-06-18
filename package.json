@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TashaSlon/express-mesto.git"
+    "url": "git@github.com:TashaSlon/express-mesto-gha.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TashaSlon/express-mesto/issues"
+    "url": "https://github.com/TashaSlon/express-mesto-gha/issues"
   },
-  "homepage": "https://github.com/TashaSlon/express-mesto#readme",
+  "homepage": "https://github.com/TashaSlon/express-mesto-gha#readme",
   "dependencies": {
     "express": "^4.18.2"
   },
