@@ -2,9 +2,9 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const process = require('process');
 const routerUsers = require('./routes/users');
 const routerCards = require('./routes/cards');
-const process = require('process');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
   req.user = {
-    _id: '6482d2b5dd33d23abf3701a9'
+    _id: '6482d2b5dd33d23abf3701a9',
   };
 
   next();
